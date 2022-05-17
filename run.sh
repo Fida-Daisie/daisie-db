@@ -1,0 +1,1 @@
+docker run -d --name daisie-postgres -p 5435:5432 --restart=always -v daisie-postgres:/var/lib/postgresql/data daisie-postgres-image
