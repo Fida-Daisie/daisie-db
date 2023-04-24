@@ -1,0 +1,21 @@
+# Author: David Schmidt, Finanz-Data GmbH
+# Date: 2023-03-29
+version: "3"
+
+services:
+    etl:
+        build:
+            context: build/etl/
+            args:
+                postgres_user: ${postgres_user}
+                postgres_password: ${postgres_password}
+                postgres_db: ${postgres_db}
+        container_name: ${project_name}_${project_version}_etl
+        volumes:
+            - ${etl_files}:/app/files
+        networks:
+            - daisie_demo
+
+networks:
+    daisie_demo:
+        name: ${project_name}_${project_version}

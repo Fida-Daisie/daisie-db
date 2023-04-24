@@ -1,0 +1,7 @@
+daisie_db_server;daisie_demo_p14_postgresql
+daisie_db_port;5432
+daisie_db_database;daisie-dwh
+daisie_db_username;daisie-admin
+daisie_db_password;fida
+daisie_db_schema;dwh
+daisie_db_additionalParams;

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<talendfile:ContextType xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:talendfile="platform:/resource/org.talend.model/model/TalendFile.xsd" xmi:id="_n6lZgMJUEeyvd5xUl65UiQ" confirmationNeeded="false" name="AUS_FILE">
+  <contextParameter xmi:id="_n6lZgcJUEeyvd5xUl65UiQ" comment="" name="daisie_db_port" prompt="daisie_db_port?" promptNeeded="true" type="id_String" value="null"/>
+  <contextParameter xmi:id="_n6lZgsJUEeyvd5xUl65UiQ" comment="" name="daisie_db_additionalParams" prompt="daisie_db_additionalParams?" promptNeeded="false" type="id_String" value=""/>
+  <contextParameter xmi:id="_n6lZg8JUEeyvd5xUl65UiQ" comment="" name="daisie_db_password" prompt="daisie_db_password?" promptNeeded="true" type="id_Password" value=""/>
+  <contextParameter xmi:id="_n6lZhMJUEeyvd5xUl65UiQ" comment="" name="daisie_db_database" prompt="daisie_db_database?" promptNeeded="true" type="id_String" value="null"/>
+  <contextParameter xmi:id="_n6lZhcJUEeyvd5xUl65UiQ" comment="" name="daisie_db_username" prompt="daisie_db_username?" promptNeeded="true" type="id_String" value="null"/>
+  <contextParameter xmi:id="_n6lZhsJUEeyvd5xUl65UiQ" comment="" name="daisie_db_schema" prompt="daisie_db_schema?" promptNeeded="true" type="id_String" value="null"/>
+  <contextParameter xmi:id="_n6lZh8JUEeyvd5xUl65UiQ" comment="" name="daisie_db_server" prompt="daisie_db_server?" promptNeeded="true" type="id_String" value="null"/>
+</talendfile:ContextType>

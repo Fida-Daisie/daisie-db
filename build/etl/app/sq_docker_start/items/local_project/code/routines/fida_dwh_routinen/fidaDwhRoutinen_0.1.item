@@ -1,0 +1,231 @@
+package routines;
+
+import java.math.BigDecimal;
+import java.util.Iterator;
+
+import javax.naming.Context;
+
+import routines.system.JSONObject;
+
+/*
+ * user specification: the function's comment should contain keys as follows: 1. write about the function's comment.but
+ * it must be before the "{talendTypes}" key.
+ * 
+ * 2. {talendTypes} 's value must be talend Type, it is required . its value should be one of: String, char | Character,
+ * long | Long, int | Integer, boolean | Boolean, byte | Byte, Date, double | Double, float | Float, Object, short |
+ * Short
+ * 
+ * 3. {Category} define a category for the Function. it is required. its value is user-defined .
+ * 
+ * 4. {param} 's format is: {param} <type>[(<default value or closed list values>)] <name>[ : <comment>]
+ * 
+ * <type> 's value should be one of: string, int, list, double, object, boolean, long, char, date. <name>'s value is the
+ * Function's parameter name. the {param} is optional. so if you the Function without the parameters. the {param} don't
+ * added. you can have many parameters for the Function.
+ * 
+ * 5. {example} gives a example for the Function. it is optional.
+ */
+//* 
+public class fidaDwhRoutinen {
+
+	/**
+	 * Wandelt die Quantity in Abhängigkeit von Unit of Measure in Stunden um
+	 *
+	 * {talendTypes} BigDecimal
+	 *
+	 * {Category} FIDA-DWH
+	 *
+	 * {param} String ("Tag") unitOfMeasure : string
+	 * 
+	 * {param} BigDecimal (100) quantity: BigDecimal
+	 *
+	 * {example} wandleQuantityInStunden("Tag",100)
+	 *
+	 */
+	public static BigDecimal wandleQuantityInStunden(String unitOfMeasure, BigDecimal quantity) {
+		BigDecimal returnWert = new BigDecimal(0);
+
+		switch (unitOfMeasure) {
+		case "Stunde":
+			returnWert = quantity;
+			break;
+		case "Stunde(n)":
+			returnWert = quantity;
+			break;
+		case "Tag":
+			returnWert = quantity.multiply(new BigDecimal(8));
+			break;
+		case "Tag(e)":
+			returnWert = quantity.multiply(new BigDecimal(8));
+			break;
+		default:
+			break;
+		}
+		return returnWert;
+
+	}
+
+	/**
+	 * Prüft ob zwei BigDecimal den gleichen Wert haben
+	 *
+	 * {talendTypes} BigDecimal
+	 *
+	 * {Category} FIDA-DWH
+	 *
+	 * {param} BigDecimal (in1) Vergleichsinput1 : BigDecimal
+	 * 
+	 * {param} BigDecimal (in2) Vergleichsinput2: BigDecimal
+	 *
+	 * {example} bigDecimalsAreEquakl(100,100)
+	 *
+	 */
+	public static boolean bigDecimalsAreEqual(BigDecimal in1, BigDecimal in2) {
+		boolean returnWert = false;
+//System.out.println("bigDecimalsAreEqual: Vergleiche " + in1.toString() + " und " + in2.toString() );
+		if (in1.compareTo(in2) == 0) {
+			returnWert = true;
+		} else {
+			returnWert = false;
+		}
+
+		// System.out.println("bigDecimalsAreEqual: Ergebnis: " + returnWert);
+
+		return returnWert;
+	}
+	
+	/**
+	 * Prüft ob die übergebenen Stage- und Corespalte identisch sind
+	 *
+	 * {talendTypes} Object
+	 *
+	 * {Category} FIDA-DWH
+	 *
+	 * {param} Object (stgSpalte) Vergleichsinput1 : Object
+	 * 
+	 * {param} Object (coreSpalte) Vergleichsinput2: Object
+	 *
+	 * {example} spaltenHabenUnterschiede(stage_name, core_name)
+	 *
+	 */
+	public static boolean spaltenHabenUnterschiede(Object stgSpalte, Object coreSpalte) {
+		boolean returnWert = false;
+
+		if ((stgSpalte == null && coreSpalte != null) || (stgSpalte != null && coreSpalte == null)
+				|| (stgSpalte != null && coreSpalte != null && !stgSpalte.equals(coreSpalte))) {
+			returnWert = true;
+		} else {
+			returnWert = false;
+		}
+
+		return returnWert;
+	}
+	
+	/**
+	 * Die Prozedur überprüft zwei ganz einfache JSON-Objekte darauf ob sie 
+	 * 1.) die gleiche Anzahl an Keys haben
+	 * 2.) ob alle Keys aus Objekt 1 auch in Objekt 2 vorhanden sind
+	 * 3.) ob die Values zu den Keys aus Objekt 1 und Objekt 2 übereinstimmen
+	 * 
+	 * Sollte einer der drei genannten Punkte nicht zutreffen so liefert die Prozedur false ansonsten true
+	 *
+	 * {talendTypes} Object
+	 *
+	 * {Category} FIDA-DWH
+	 *
+	 * {param} JSON-Objekt 1 (stgSpalte) Vergleichsinput1 : Object
+	 * 
+	 * {param} JSON-Objekt 2 (coreSpalte) Vergleichsinput2: Object
+	 *
+	 * {example} isJsonObjekteIdentisch(stageJson, corJson)
+	 *
+	 */
+	public static boolean isJsonObjekteIdentisch(JSONObject jsonObject1, JSONObject jsonObject2) {
+		boolean returnWert = true;
+		
+		Iterator<String> keys =  jsonObject1.keys();
+
+		if (jsonObject1.length() != jsonObject2.length())
+		{
+			returnWert = false;
+		}
+		else
+		{
+			while(keys.hasNext())
+			{
+				String key = keys.next();
+				Object valueObject1 = jsonObject1.get(key);
+				Object valueObject2 = null;
+				if	(jsonObject2.has(key))
+				{
+					valueObject2 = jsonObject2.get(key);
+				}
+			
+				if (valueObject2 == null || !valueObject2.equals(valueObject1))
+				{
+					returnWert = false;
+				}
+			
+			}
+		}
+
+		return returnWert;
+	}
+	
+	/**
+	 * Die Prozedur generiert aus einem übergebenen JSON ein Input-Statement.
+	 * Alle im JSON existierenden Keys werden dabei als Spaltenname verwendet. 
+	 * 	 *
+	 * {talendTypes} Object
+	 *
+	 * {Category} FIDA-DWH
+	 *
+	 * {param} JSON-Objekt (JSON-Objekt) JSON-Objekt : Object
+	 * 
+	 * {param} JSON-Objekt 2 (coreSpalte) Vergleichsinput2: Object
+	 *
+	 * {example} isJsonObjekteIdentisch(stageJson, corJson)
+	 *
+	 */
+	public static String createUpdateInsertStatementFromJson(String schema, String tabname, long updateKey, JSONObject jsonObject) {
+		String insertStatement = new String("");		
+		String updateInsertStatement = new String("");
+		String colNames = new String("");
+		String values = new String("");
+		String keyName = "dwh_" + tabname.substring(3) + "_id";
+		
+		
+		insertStatement = "insert into " + schema + "." + tabname;
+		
+		Iterator<String> keys =  jsonObject.keys();
+		
+		while(keys.hasNext())
+		{
+			String key = keys.next();
+			Object valueObject = jsonObject.get(key);
+			
+			colNames += key;			
+			
+			if (valueObject.getClass() == java.util.Date.class) {
+				values += "'" + TalendDate.formatDate("yyyy-MM-dd", (java.util.Date) valueObject) + "'"; 
+			}
+			else
+			{
+				values += "'" + valueObject + "'";
+			}
+			
+			if (keys.hasNext()) 
+			{
+				colNames += ",";
+				values += ",";
+			}
+		}
+		
+		insertStatement += " (" + colNames + ") values (" + values + ");";
+		
+		updateInsertStatement += "update " + schema + "." + tabname + " set dwh_ersetzt_am = current_date where " + keyName + "=" + updateKey +";" + insertStatement;
+			
+		return updateInsertStatement;
+	}
+	
+	
+}

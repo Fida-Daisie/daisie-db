@@ -1,0 +1,29 @@
+# Author: David Schmidt, Finanz-Data GmbH
+# Date: 2023-03-29
+version: '3'
+
+services:
+    postgresql:
+        build:
+            context: build/postgres/
+            args:
+                postgres_version: ${postgres_version}
+                postgres_user: ${postgres_user}
+                postgres_password: ${postgres_password}
+                postgres_db: ${postgres_db}
+        container_name: ${project_name}_${project_version}_postgresql
+        ports:
+            - ${postgres_exposing_port}:5432
+        restart: unless-stopped
+        volumes:
+            - /etc/timezone:/etc/timezone:ro
+            - /etc/localtime:/etc/localtime:ro
+            - daisie-opensource:/var/lib/postgresql/data
+        networks:
+            - daisie_demo
+volumes:
+    daisie-opensource:
+
+networks:
+    daisie_demo:
+        name: ${project_name}_${project_version}
